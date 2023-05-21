@@ -1,5 +1,5 @@
 #import "IBPUICollectionViewCompositionalLayoutConfiguration_Private.h"
-
+#import "IBPNSCollectionViewCompositionalLayoutConfig_Private.h"
 @implementation IBPUICollectionViewCompositionalLayoutConfiguration
 
 + (instancetype)defaultConfiguration {
@@ -18,8 +18,10 @@
 
 - (instancetype)init {
     if (@available(iOS 13, *)) {
-        return [[NSClassFromString(@"UICollectionViewCompositionalLayoutConfiguration") alloc] init];
-    } else {
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [[NSClassFromString(@"UICollectionViewCompositionalLayoutConfiguration") alloc] init];
+        }
+    }
         self = [super init];
         if (self) {
             self.scrollDirection = UICollectionViewScrollDirectionVertical;
@@ -27,7 +29,7 @@
             self.boundarySupplementaryItems = @[];
         }
         return self;
-    }
+    
 }
 
 - (nonnull id)copyWithZone:(nullable NSZone *)zone {

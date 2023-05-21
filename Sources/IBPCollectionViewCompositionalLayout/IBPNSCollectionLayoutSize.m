@@ -1,7 +1,7 @@
 #import "IBPNSCollectionLayoutSize_Private.h"
 #import "IBPNSCollectionLayoutContainer.h"
 #import "IBPNSCollectionLayoutDimension.h"
-
+#import "IBPNSCollectionViewCompositionalLayoutConfig_Private.h"
 @interface IBPNSCollectionLayoutSize()
 
 @property (nonatomic, readwrite) IBPNSCollectionLayoutDimension *widthDimension;
@@ -14,10 +14,12 @@
 + (instancetype)sizeWithWidthDimension:(IBPNSCollectionLayoutDimension *)width
                        heightDimension:(IBPNSCollectionLayoutDimension *)height {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutSize") sizeWithWidthDimension:width heightDimension:height];
-    } else {
-        return [[self alloc] initWithWidthDimension:width heightDimension:height];
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutSize") sizeWithWidthDimension:width heightDimension:height];
+        }
     }
+    return [[self alloc] initWithWidthDimension:width heightDimension:height];
+    
 }
 
 - (instancetype)initWithWidthDimension:(IBPNSCollectionLayoutDimension *)width

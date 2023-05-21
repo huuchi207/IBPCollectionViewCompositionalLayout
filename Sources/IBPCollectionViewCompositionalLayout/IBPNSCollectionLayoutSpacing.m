@@ -1,5 +1,5 @@
 #import "IBPNSCollectionLayoutSpacing_Private.h"
-
+#import "IBPNSCollectionViewCompositionalLayoutConfig_Private.h"
 @interface IBPNSCollectionLayoutSpacing()
 
 @property (nonatomic, readwrite) CGFloat spacing;
@@ -12,18 +12,20 @@
 
 + (instancetype)flexibleSpacing:(CGFloat)flexibleSpacing {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutSpacing") flexibleSpacing:flexibleSpacing];
-    } else {
-        return [[self alloc] initWithSpacing:flexibleSpacing isFlexible:YES];
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutSpacing") flexibleSpacing:flexibleSpacing];
+        }
     }
+    return [[self alloc] initWithSpacing:flexibleSpacing isFlexible:YES];
 }
 
 + (instancetype)fixedSpacing:(CGFloat)fixedSpacing {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutSpacing") fixedSpacing:fixedSpacing];
-    } else {
-        return [[self alloc] initWithSpacing:fixedSpacing isFlexible:NO];
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutSpacing") fixedSpacing:fixedSpacing];
+        }
     }
+    return [[self alloc] initWithSpacing:fixedSpacing isFlexible:NO];    
 }
 
 + (instancetype)defaultSpacing {

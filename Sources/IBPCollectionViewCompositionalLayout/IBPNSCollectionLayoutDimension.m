@@ -1,5 +1,5 @@
 #import "IBPNSCollectionLayoutDimension.h"
-
+#import "IBPNSCollectionViewCompositionalLayoutConfig_Private.h"
 typedef NS_ENUM(NSUInteger, IBPNSCollectionLayoutDimensionSemantic) {
     IBPNSCollectionLayoutDimensionSemanticFractionalWidth,
     IBPNSCollectionLayoutDimensionSemanticFractionalHeight,
@@ -18,34 +18,40 @@ typedef NS_ENUM(NSUInteger, IBPNSCollectionLayoutDimensionSemantic) {
 
 + (instancetype)fractionalWidthDimension:(CGFloat)fractionalWidth {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutDimension") fractionalWidthDimension:fractionalWidth];
-    } else {
-        return [self dimensionWithDimension:fractionalWidth semantic:IBPNSCollectionLayoutDimensionSemanticFractionalWidth];
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutDimension") fractionalWidthDimension:fractionalWidth];
+        }
     }
+    return [self dimensionWithDimension:fractionalWidth semantic:IBPNSCollectionLayoutDimensionSemanticFractionalWidth];
 }
 
 + (instancetype)fractionalHeightDimension:(CGFloat)fractionalHeight {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutDimension") fractionalHeightDimension:fractionalHeight];
-    } else {
-        return [self dimensionWithDimension:fractionalHeight semantic:IBPNSCollectionLayoutDimensionSemanticFractionalHeight];
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutDimension") fractionalHeightDimension:fractionalHeight];
+        }
     }
+    return [self dimensionWithDimension:fractionalHeight semantic:IBPNSCollectionLayoutDimensionSemanticFractionalHeight];
 }
 
 + (instancetype)absoluteDimension:(CGFloat)absoluteDimension {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutDimension") absoluteDimension:absoluteDimension];
-    } else {
-        return [self dimensionWithDimension:absoluteDimension semantic:IBPNSCollectionLayoutDimensionSemanticAbsolute];
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutDimension") absoluteDimension:absoluteDimension];
+        }
     }
+    return [self dimensionWithDimension:absoluteDimension semantic:IBPNSCollectionLayoutDimensionSemanticAbsolute];
+    
 }
 
 + (instancetype)estimatedDimension:(CGFloat)estimatedDimension {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutDimension") estimatedDimension:estimatedDimension];
-    } else {
-        return [self dimensionWithDimension:estimatedDimension semantic:IBPNSCollectionLayoutDimensionSemanticEstimated];
-    }
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutDimension") estimatedDimension:estimatedDimension];
+        }
+   }
+    return [self dimensionWithDimension:estimatedDimension semantic:IBPNSCollectionLayoutDimensionSemanticEstimated];
+
 }
 
 + (instancetype)dimensionWithDimension:(CGFloat)dimension semantic:(IBPNSCollectionLayoutDimensionSemantic)semantic {

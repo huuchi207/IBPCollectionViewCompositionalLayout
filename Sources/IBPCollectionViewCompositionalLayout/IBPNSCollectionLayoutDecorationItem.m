@@ -1,5 +1,5 @@
 #import "IBPNSCollectionLayoutDecorationItem.h"
-
+#import "IBPNSCollectionViewCompositionalLayoutConfig_Private.h"
 @interface IBPNSCollectionLayoutDecorationItem()
 
 @property (nonatomic, readwrite) NSString *elementKind;
@@ -10,10 +10,11 @@
 
 + (instancetype)backgroundDecorationItemWithElementKind:(NSString *)elementKind {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutDecorationItem") backgroundDecorationItemWithElementKind:elementKind];
-    } else {
-        return [[self alloc] initWithElementKind:elementKind];
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutDecorationItem") backgroundDecorationItemWithElementKind:elementKind];
+        }
     }
+    return [[self alloc] initWithElementKind:elementKind];
 }
 
 - (instancetype)initWithElementKind:(NSString *)elementKind {

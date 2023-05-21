@@ -7,7 +7,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface IBPNSCollectionLayoutGroup : IBPNSCollectionLayoutItem<NSCopying>
+@interface IBPNSCollectionLayoutGroup : IBPNSCollectionLayoutItem<NSCopying> {
+    _Bool _hasCheckedIfDecorationItemRequiresRegistration;
+    _Bool __hasDecorationItemRequiringRegistration;
+}
 
 // Specifies a group that will have N items equally sized along the horizontal axis. use interItemSpacing to insert space between items
 //
@@ -79,6 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // for visual debugging; will print an ASCII art rendering to console
 - (NSString *)visualDescription;
+@property(nonatomic) _Bool _hasDecorationItemRequiringRegistration; // @synthesize _hasDecorationItemRequiringRegistration=__hasDecorationItemRequiringRegistration;
 
 @end
 

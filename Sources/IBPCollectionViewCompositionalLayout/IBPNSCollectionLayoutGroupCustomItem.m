@@ -1,5 +1,5 @@
 #import "IBPNSCollectionLayoutGroupCustomItem.h"
-
+#import "IBPNSCollectionViewCompositionalLayoutConfig_Private.h"
 @interface IBPNSCollectionLayoutGroupCustomItem()
 
 @property (nonatomic, readwrite) CGRect frame;
@@ -11,18 +11,21 @@
 
 + (instancetype)customItemWithFrame:(CGRect)frame {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutGroupCustomItem") customItemWithFrame:frame];
-    } else {
-        return [self customItemWithFrame:frame zIndex:0];
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutGroupCustomItem") customItemWithFrame:frame];
+        }
     }
+    return [self customItemWithFrame:frame zIndex:0];
 }
 
 + (instancetype)customItemWithFrame:(CGRect)frame zIndex:(NSInteger)zIndex {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutGroupCustomItem") customItemWithFrame:frame zIndex:zIndex];
-    } else {
-        return [[self alloc] initWithFrame:frame zIndex:zIndex];
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutGroupCustomItem") customItemWithFrame:frame zIndex:zIndex];
+        }
     }
+    return [[self alloc] initWithFrame:frame zIndex:zIndex];
+    
 }
 
 - (instancetype)initWithFrame:(CGRect)frame zIndex:(NSInteger)zIndex {

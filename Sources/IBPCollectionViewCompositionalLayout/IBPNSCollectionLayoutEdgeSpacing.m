@@ -1,6 +1,6 @@
 #import "IBPNSCollectionLayoutEdgeSpacing_Private.h"
 #import "IBPNSCollectionLayoutSpacing_Private.h"
-
+#import "IBPNSCollectionViewCompositionalLayoutConfig_Private.h"
 @interface IBPNSCollectionLayoutEdgeSpacing()
 
 @property (nonatomic, readwrite) IBPNSCollectionLayoutSpacing *leading;
@@ -19,13 +19,14 @@
                          trailing:(IBPNSCollectionLayoutSpacing *)trailing
                            bottom:(IBPNSCollectionLayoutSpacing *)bottom {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutEdgeSpacing") spacingForLeading:leading
-                                                                                  top:top
-                                                                             trailing:trailing
-                                                                               bottom:bottom];
-    } else {
-        return [[self alloc] initForLeading:leading top:top trailing:trailing bottom:bottom];
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutEdgeSpacing") spacingForLeading:leading
+                                                                                      top:top
+                                                                                 trailing:trailing
+                                                                                   bottom:bottom];
+        }
     }
+    return [[self alloc] initForLeading:leading top:top trailing:trailing bottom:bottom];    
 }
 
 + (instancetype)flexibleSpacing:(CGFloat)spacing {

@@ -6,7 +6,7 @@
 #import "IBPNSCollectionLayoutItem_Private.h"
 #import "IBPNSCollectionLayoutSize_Private.h"
 #import "IBPNSCollectionLayoutSpacing_Private.h"
-
+#import "IBPNSCollectionViewCompositionalLayoutConfig_Private.h"
 @implementation IBPNSCollectionLayoutGroup
 
 @synthesize supplementaryItems;
@@ -14,94 +14,104 @@
 + (instancetype)horizontalGroupWithLayoutSize:(IBPNSCollectionLayoutSize *)layoutSize
                                      subitems:(NSArray<IBPNSCollectionLayoutItem *> *)subitems {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutGroup") horizontalGroupWithLayoutSize:layoutSize subitems:subitems];
-    } else {
-        return [[self alloc] initWithSize:layoutSize
-                                 subitems:subitems
-                                    count:0
-                         interItemSpacing:[IBPNSCollectionLayoutSpacing defaultSpacing]
-                            contentInsets:IBPNSDirectionalEdgeInsetsZero
-                              edgeSpacing:[IBPNSCollectionLayoutEdgeSpacing defaultSpacing]
-                          layoutDirection:IBPGroupLayoutDirectionHorizontal
-                       supplementaryItems:@[]
-                  customGroupItemProvider:nil
-                                     name:nil
-                               identifier:[NSUUID UUID]];
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutGroup") horizontalGroupWithLayoutSize:layoutSize subitems:subitems];
+        }
     }
+    return [[self alloc] initWithSize:layoutSize
+                             subitems:subitems
+                                count:0
+                     interItemSpacing:[IBPNSCollectionLayoutSpacing defaultSpacing]
+                        contentInsets:IBPNSDirectionalEdgeInsetsZero
+                          edgeSpacing:[IBPNSCollectionLayoutEdgeSpacing defaultSpacing]
+                      layoutDirection:IBPGroupLayoutDirectionHorizontal
+                   supplementaryItems:@[]
+              customGroupItemProvider:nil
+                                 name:nil
+                           identifier:[NSUUID UUID]];
+
 }
 
 + (instancetype)horizontalGroupWithLayoutSize:(IBPNSCollectionLayoutSize *)layoutSize
                                       subitem:(IBPNSCollectionLayoutItem *)subitem
                                         count:(NSInteger)count {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutGroup") horizontalGroupWithLayoutSize:layoutSize subitem:subitem count:count];
-    } else {
-        return [[self alloc] initWithSize:layoutSize
-                                 subitems:@[subitem]
-                                    count:count
-                         interItemSpacing:[IBPNSCollectionLayoutSpacing defaultSpacing]
-                            contentInsets:IBPNSDirectionalEdgeInsetsZero
-                              edgeSpacing:[IBPNSCollectionLayoutEdgeSpacing defaultSpacing]
-                          layoutDirection:IBPGroupLayoutDirectionHorizontal
-                       supplementaryItems:@[]
-                  customGroupItemProvider:nil
-                                     name:nil
-                               identifier:[NSUUID UUID]];
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutGroup") horizontalGroupWithLayoutSize:layoutSize subitem:subitem count:count];
+        }
     }
+    return [[self alloc] initWithSize:layoutSize
+                             subitems:@[subitem]
+                                count:count
+                     interItemSpacing:[IBPNSCollectionLayoutSpacing defaultSpacing]
+                        contentInsets:IBPNSDirectionalEdgeInsetsZero
+                          edgeSpacing:[IBPNSCollectionLayoutEdgeSpacing defaultSpacing]
+                      layoutDirection:IBPGroupLayoutDirectionHorizontal
+                   supplementaryItems:@[]
+              customGroupItemProvider:nil
+                                 name:nil
+                           identifier:[NSUUID UUID]];
+
 }
 
 + (instancetype)verticalGroupWithLayoutSize:(IBPNSCollectionLayoutSize *)layoutSize
                                    subitems:(NSArray<IBPNSCollectionLayoutItem *> *)subitems {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutGroup") verticalGroupWithLayoutSize:layoutSize subitems:subitems];
-    } else {
-        return [[self alloc] initWithSize:layoutSize subitems:subitems
-                                    count:0
-                         interItemSpacing:[IBPNSCollectionLayoutSpacing defaultSpacing]
-                            contentInsets:IBPNSDirectionalEdgeInsetsZero
-                              edgeSpacing:[IBPNSCollectionLayoutEdgeSpacing defaultSpacing]
-                          layoutDirection:IBPGroupLayoutDirectionVertical
-                       supplementaryItems:@[]
-                  customGroupItemProvider:nil
-                                     name:nil
-                               identifier:[NSUUID UUID]];
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutGroup") verticalGroupWithLayoutSize:layoutSize subitems:subitems];
+        }
     }
+    return [[self alloc] initWithSize:layoutSize subitems:subitems
+                                count:0
+                     interItemSpacing:[IBPNSCollectionLayoutSpacing defaultSpacing]
+                        contentInsets:IBPNSDirectionalEdgeInsetsZero
+                          edgeSpacing:[IBPNSCollectionLayoutEdgeSpacing defaultSpacing]
+                      layoutDirection:IBPGroupLayoutDirectionVertical
+                   supplementaryItems:@[]
+              customGroupItemProvider:nil
+                                 name:nil
+                           identifier:[NSUUID UUID]];
+
 }
 
 + (instancetype)verticalGroupWithLayoutSize:(IBPNSCollectionLayoutSize *)layoutSize
                                     subitem:(IBPNSCollectionLayoutItem *)subitem
                                       count:(NSInteger)count {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutGroup") verticalGroupWithLayoutSize:layoutSize subitem:subitem count:count];
-    } else {
-        return [[self alloc] initWithSize:layoutSize subitems:@[subitem]
-                                    count:count
-                         interItemSpacing:[IBPNSCollectionLayoutSpacing defaultSpacing]
-                            contentInsets:IBPNSDirectionalEdgeInsetsZero
-                              edgeSpacing:[IBPNSCollectionLayoutEdgeSpacing defaultSpacing]
-                          layoutDirection:IBPGroupLayoutDirectionVertical
-                       supplementaryItems:@[]
-                  customGroupItemProvider:nil
-                                     name:nil
-                               identifier:[NSUUID UUID]];
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutGroup") verticalGroupWithLayoutSize:layoutSize subitem:subitem count:count];
+        }
     }
+    return [[self alloc] initWithSize:layoutSize subitems:@[subitem]
+                                count:count
+                     interItemSpacing:[IBPNSCollectionLayoutSpacing defaultSpacing]
+                        contentInsets:IBPNSDirectionalEdgeInsetsZero
+                          edgeSpacing:[IBPNSCollectionLayoutEdgeSpacing defaultSpacing]
+                      layoutDirection:IBPGroupLayoutDirectionVertical
+                   supplementaryItems:@[]
+              customGroupItemProvider:nil
+                                 name:nil
+                           identifier:[NSUUID UUID]];
+
 }
 
 + (instancetype)customGroupWithLayoutSize:(IBPNSCollectionLayoutSize *)layoutSize itemProvider:(IBPNSCollectionLayoutGroupCustomItemProvider)itemProvider {
     if (@available(iOS 13, *)) {
-        return [NSClassFromString(@"NSCollectionLayoutGroup") customGroupWithLayoutSize:layoutSize itemProvider:itemProvider];
-    } else {
-        return [[self alloc] initWithSize:layoutSize subitems:@[]
-                                    count:0
-                         interItemSpacing:[IBPNSCollectionLayoutSpacing defaultSpacing]
-                            contentInsets:IBPNSDirectionalEdgeInsetsZero
-                              edgeSpacing:[IBPNSCollectionLayoutEdgeSpacing defaultSpacing]
-                          layoutDirection:IBPGroupLayoutDirectionCustom
-                       supplementaryItems:@[]
-                  customGroupItemProvider:itemProvider
-                                     name:nil
-                               identifier:[NSUUID UUID]];
+        if (!isFullyBackportCollectionViewCompositionalLayout) {
+            return [NSClassFromString(@"NSCollectionLayoutGroup") customGroupWithLayoutSize:layoutSize itemProvider:itemProvider];
+        }
     }
+    return [[self alloc] initWithSize:layoutSize subitems:@[]
+                                count:0
+                     interItemSpacing:[IBPNSCollectionLayoutSpacing defaultSpacing]
+                        contentInsets:IBPNSDirectionalEdgeInsetsZero
+                          edgeSpacing:[IBPNSCollectionLayoutEdgeSpacing defaultSpacing]
+                      layoutDirection:IBPGroupLayoutDirectionCustom
+                   supplementaryItems:@[]
+              customGroupItemProvider:itemProvider
+                                 name:nil
+                           identifier:[NSUUID UUID]];
+
 }
 
 - (instancetype)initWithSize:(IBPNSCollectionLayoutSize *)size
